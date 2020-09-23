@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AlumnoController;
+use App\Http\Controllers\Api\MateriaController;
 
 
 Route::group(['prefix' => 'auth','middleware' => ['cors', 'json.response'],], function () {
@@ -20,15 +21,18 @@ Route::group(['prefix' => 'auth','middleware' => ['cors', 'json.response'],], fu
 
 
 
-Route::group(['middleware' => ['cors', 'json.response']], function () {
+Route::group(['middleware' => ['cors', 'json.response','auth:api']], function () {
     //Users
     Route::get('users',  [UserController::class, 'all']);
     Route::get('users/{id}',  [UserController::class, 'single']);
     Route::put('users/{id}',  [UserController::class, 'update']);
     Route::delete('users/{id}',  [UserController::class, 'delete']);
+    Route::get('alumno/materias',  [AlumnoController::class, 'materias']);
+    Route::get('materias/{id}',  [MateriaController::class, 'show']);
+
 
     //Projects
-    Route::get('projects',  [ProjectController::class, 'all']);
+    
 
 });
 

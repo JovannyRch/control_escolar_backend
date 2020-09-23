@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Alumno;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -61,8 +62,21 @@ class UserController extends Controller
         if ($request->remember_me) {
             $token->expires_at = Carbon::now()->addWeeks(1);
         }
+        $data = [];
+        if($user->role == "estudiante" || $user->role == "student"){
+            $data = Alumno::select('nombre','paterno','materno')->firstWhere('user_id',$user->id);
+             
+        }
+
         $token->save();
+        $userData = [];
+        $userData['id'] = $user->id;
+        $userData['email'] = $user->email;
+        $userData['role'] = $user->role;
         return response([
+            
+            'user' => $userData,
+            'data' => $data,
             'access_token' => $tokenResult->accessToken,
             'token_type'   => 'Bearer',
             'expires_at'   => Carbon::parse(
