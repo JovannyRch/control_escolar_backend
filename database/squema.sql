@@ -1,3 +1,4 @@
+
 drop TABLE if EXISTS ciclos;
 drop TABLE if EXISTS materias;
 drop TABLE if EXISTS grupos;
@@ -8,12 +9,16 @@ drop TABLE if EXISTS alumnos;
 create table ciclos(
     id bigint unsigned primary key auto_increment,
     nombre varchar(200) not null unique,
-    status enum('activo','no') default 'no'
+    status enum('activo','noactivo') default 'noactivo',
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 create table grados(
     id bigint unsigned primary key auto_increment,
-    nombre varchar(200) not null unique
+    nombre varchar(200) not null unique,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 create table materias(
@@ -21,120 +26,155 @@ create table materias(
     nombre varchar(200) not null unique,
     plan text,
     grado_id bigint unsigned not null,
-    foreign key(grado_id) references grados(id)
+    foreign key(grado_id) references grados(id) on delete cascade,
+     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 create table grupos(
     id bigint unsigned primary key auto_increment,
-    nombre varchar(200) not null unique
+    nombre varchar(200) not null unique,
+     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 
 create table alumnos( 
   id bigint unsigned  primary key auto_increment, 
-  materno varchar(150),
-  paterno varchar(150),
-  nombre varchar(200),
+  materno varchar(150)  not null ,
+  paterno varchar(150)  not null,
+  nombre varchar(200)  not null,
   user_id bigint unsigned,
-  foreign key(user_id) references users(id)
+  foreign key(user_id) references users(id) on delete cascade,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 
 
 create table profesores( 
   id bigint unsigned  primary key auto_increment, 
-  materno varchar(150), 
-  paterno varchar(150),
-  nombre varchar(200),
+  materno varchar(150)  not null, 
+  paterno varchar(150)  not null,
+  nombre varchar(200)  not null,
   user_id bigint unsigned,
-  foreign key(user_id) references users(id)
+  foreign key(user_id) references users(id) on delete cascade,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 
 create table tutores( 
   id bigint unsigned  primary key auto_increment, 
-  materno varchar(150), 
-  paterno varchar(150),
-  nombre varchar(200),
+  materno varchar(150)  not null, 
+  paterno varchar(150)  not null,
+  nombre varchar(200)  not null,
   user_id bigint unsigned,
-  foreign key(user_id) references users(id)
+  foreign key(user_id) references users(id) on delete cascade,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 create table alumnos_on_tutores(
     id bigint unsigned  primary key auto_increment, 
-    tutor_id bigint unsigned,
-    foreign key(tutor_id) references tutores(id),
-    alumno_id bigint unsigned,
-    foreign key(alumno_id) references alumnos(id)
+    tutor_id bigint unsigned  not null,
+    foreign key(tutor_id) references tutores(id) on delete cascade,
+    alumno_id bigint unsigned  not null,
+    foreign key(alumno_id) references alumnos(id) on delete cascade,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 
 create table inscripciones(
     id bigint unsigned  primary key auto_increment, 
-    alumno_id bigint unsigned,
-    foreign key(alumno_id) references alumnos(id),
-    grupo_id bigint unsigned,
-    foreign key(grupo_id) references grupos(id),
-    ciclo_id bigint unsigned,
-    foreign key(ciclo_id) references ciclos(id),
-    grado_id bigint unsigned,
-    foreign key(grado_id) references grados(id)
+    alumno_id bigint unsigned  not null,
+    foreign key(alumno_id) references alumnos(id) on delete cascade,
+    grupo_id bigint unsigned  not null,
+    foreign key(grupo_id) references grupos(id) on delete cascade,
+    ciclo_id bigint unsigned  not null,
+    foreign key(ciclo_id) references ciclos(id) on delete cascade,
+    grado_id bigint unsigned  not null,
+    foreign key(grado_id) references grados(id) on delete cascade,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 create table clases(
     id bigint unsigned  primary key auto_increment, 
-    profesor_id bigint unsigned,
-    foreign key(profesor_id) references profesores(id),
-    grupo_id bigint unsigned,
-    foreign key(grupo_id) references grupos(id),
-    ciclo_id bigint unsigned,
-    foreign key(ciclo_id) references ciclos(id),
-    grado_id bigint unsigned,
-    foreign key(grado_id) references grados(id),
-    materia_id bigint unsigned,
-    foreign key(materia_id) references materias(id)
+    profesor_id bigint unsigned  not null,
+    foreign key(profesor_id) references profesores(id) on delete cascade,
+    grupo_id bigint unsigned  not null,
+    foreign key(grupo_id) references grupos(id) on delete cascade,
+    ciclo_id bigint unsigned  not null,
+    foreign key(ciclo_id) references ciclos(id) on delete cascade,
+    grado_id bigint unsigned  not null,
+    foreign key(grado_id) references grados(id) on delete cascade,
+    materia_id bigint unsigned  not null,
+    foreign key(materia_id) references materias(id) on delete cascade,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 create table parciales(
     id bigint unsigned  primary key auto_increment,
-    nombre varchar(150)
+    nombre varchar(150)  not null,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 create table calificaciones(
     id bigint unsigned  primary key auto_increment, 
     calificacion float,
     clase_id bigint unsigned,
-    foreign key(clase_id) references clases(id),
+    foreign key(clase_id) references clases(id) on delete cascade,
     alumno_id bigint unsigned,
-    foreign key(alumno_id) references alumnos(id),
+    foreign key(alumno_id) references alumnos(id) on delete cascade,
     parciales_id bigint unsigned,
-    foreign key(parciales_id) references parciales(id)
+    foreign key(parciales_id) references parciales(id) on delete cascade,
+   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 
 create table calificaciones_finales(
     id bigint unsigned  primary key auto_increment, 
-    calificacion float,
-    clase_id bigint unsigned,
-    foreign key(clase_id) references clases(id),
-    alumno_id bigint unsigned,
-    foreign key(alumno_id) references alumnos(id)
+    calificacion float not null,
+    clase_id bigint unsigned not null,
+    foreign key(clase_id) references clases(id) on delete cascade,
+    alumno_id bigint unsigned not null,
+    foreign key(alumno_id) references alumnos(id) on delete cascade,
+   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
+
+create table asistencias(
+    id bigint unsigned  primary key auto_increment, 
+    tipo enum('asistencia','falta','retardo') not null,
+    clase_id bigint unsigned  not null,
+    foreign key(clase_id) references clases(id) on delete cascade,
+    alumno_id bigint unsigned  not null,
+    foreign key(alumno_id) references alumnos(id) on delete cascade,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+)
 
 
 create table noticias(
     id bigint unsigned  primary key auto_increment, 
-    title varchar(250),
-    body text,
-    img text
+    title varchar(250) not null,
+    body text not null,
+    img text not null,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 
 
-insert into ciclos(nombre, status) values ('2020B',1);
+insert into ciclos(nombre, status) values ('2020B','activo');
 insert into grados(nombre) values ('1° Semestre'), ('2° Semestre'),('3° Semestre'), ('4° Semestre'), ('5° Semestre'), ('6° Semestre');
 insert into grupos(nombre) values ('A'), ('B'),('C');
-insert into grupos(nombre) values ('1'), ('2'),('3');
+
 
 insert into materias(nombre, grado_id, plan) 
 values('Español',1,'Reprehenderit aliqua tempor dolore aliqua occaecat. Dolore incididunt qui esse nulla id. Ipsum non esse et laboris. Laboris qui excepteur sit cupidatat proident officia in est enim. Exercitation magna ipsum consectetur nulla ad eiusmod tempor do do. Veniam qui dolor id anim quis.'),

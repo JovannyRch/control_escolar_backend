@@ -33,6 +33,7 @@ class UserController extends Controller
             'message' => 'Successfully created user!'
         ], 201);
     }
+    
     public function login(Request $request)
     {
         $request->validate([
@@ -63,9 +64,9 @@ class UserController extends Controller
             $token->expires_at = Carbon::now()->addWeeks(4);
         }
         $data = [];
-        if($user->role == "estudiante" || $user->role == "student"){
+        if($user->role == "alumno"){
             $data = Alumno::select('nombre','paterno','materno')->firstWhere('user_id',$user->id);
-             
+            $data = $this->objectToArray($data);
         }
 
         $token->save();
@@ -74,9 +75,7 @@ class UserController extends Controller
         $userData['email'] = $user->email;
         $userData['role'] = $user->role;
         return response([
-            
-            'user' => $userData,
-            'data' => $data,
+            'user' => array_merge($userData,$data),
             'access_token' => $tokenResult->accessToken,
             'token_type'   => 'Bearer',
             'expires_at'   => Carbon::parse(
@@ -84,6 +83,11 @@ class UserController extends Controller
             )
                 ->toDateTimeString(),
         ]);
+    }
+
+    public function objectToArray(&$object)
+    {
+        return @json_decode(json_encode($object), true);
     }
 
     public function logout(Request $request)

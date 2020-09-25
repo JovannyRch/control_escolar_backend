@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AlumnoController;
 use App\Http\Controllers\Api\MateriaController;
 
@@ -21,18 +22,35 @@ Route::group(['prefix' => 'auth','middleware' => ['cors', 'json.response'],], fu
 
 
 
+
 Route::group(['middleware' => ['cors', 'json.response','auth:api']], function () {
     //Users
-    Route::get('users',  [UserController::class, 'all']);
+    /* Route::get('users',  [UserController::class, 'all']);
     Route::get('users/{id}',  [UserController::class, 'single']);
     Route::put('users/{id}',  [UserController::class, 'update']);
-    Route::delete('users/{id}',  [UserController::class, 'delete']);
-    Route::get('alumno/materias',  [AlumnoController::class, 'materias']);
+    Route::delete('users/{id}',  [UserController::class, 'delete']); */
+    //Route::get('alumno/materias',  [AlumnoController::class, 'materias'])->middleware('api.alumno');
     Route::get('materias/{id}',  [MateriaController::class, 'show']);
-
-
     //Projects
-    
 
 });
 
+// Rutas de alumnos
+Route::middleware(['auth:api','api.alumno'])->group(function () {
+    Route::get('alumno/materias',  [AlumnoController::class, 'materias']);
+});
+
+
+// Rutas de profesores
+Route::middleware(['auth:api','api.profesor'])->group(function () {
+    Route::get('profesor/materias',  [AlumnoController::class, 'materias']);
+});
+
+
+//Rutas del administrador
+Route::middleware(['auth:api','api.admin'])->group(function () {
+    Route::post('user',  [AdminController::class, 'createUser']);
+    Route::get('alumnos',  [AdminController::class, 'cargarAlumnos']);
+    Route::get('profesores',  [AdminController::class, 'cargarProfesores']);
+    Route::get('tutores',  [AdminController::class, 'cargarTutores']);
+});
