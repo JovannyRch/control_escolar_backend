@@ -13,6 +13,6 @@ class Ciclo extends Model
 
 
     static function getActual(){
-        return Ciclo::select('id')->firstWhere('status',1)->id;
+        return Ciclo::select('id')->firstWhere('status','activo')->id;
     }
 }

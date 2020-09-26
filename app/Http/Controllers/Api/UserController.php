@@ -30,7 +30,7 @@ class UserController extends Controller
         $token = $tokenResult->token;
 
         return response([
-            'message' => 'Successfully created user!'
+            'message' => 'User created successfully!'
         ], 201);
     }
     

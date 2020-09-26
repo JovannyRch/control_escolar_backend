@@ -1,3 +1,7 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
 
 drop TABLE if EXISTS ciclos;
 drop TABLE if EXISTS materias;
@@ -156,7 +160,7 @@ create table asistencias(
     alumno_id bigint unsigned  not null,
     foreign key(alumno_id) references alumnos(id) on delete cascade,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+   updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 )
 
 
@@ -166,7 +170,7 @@ create table noticias(
     body text not null,
     img text not null,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+   updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 );
 
 

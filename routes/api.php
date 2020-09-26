@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AlumnoController;
+use App\Http\Controllers\Api\CiclosController;
 use App\Http\Controllers\Api\MateriaController;
 
 
@@ -49,8 +50,16 @@ Route::middleware(['auth:api','api.profesor'])->group(function () {
 
 //Rutas del administrador
 Route::middleware(['auth:api','api.admin'])->group(function () {
-    Route::post('user',  [AdminController::class, 'createUser']);
+    Route::post('users',  [AdminController::class, 'createUser']);
     Route::get('alumnos',  [AdminController::class, 'cargarAlumnos']);
     Route::get('profesores',  [AdminController::class, 'cargarProfesores']);
     Route::get('tutores',  [AdminController::class, 'cargarTutores']);
+    Route::delete('users/{id}',  [AdminController::class, 'deleteUser']);
+
+    //Ciclos
+    Route::get('ciclos',[CiclosController::class, 'index']);
+    Route::post('ciclos',[CiclosController::class, 'crear']);
+    Route::delete('ciclos/{id}',[CiclosController::class, 'eliminar']);
+    Route::put('ciclos/{id}',[CiclosController::class, 'update']);
+    Route::post('ciclos/activar/{id}',[CiclosController::class, 'activar']);
 });

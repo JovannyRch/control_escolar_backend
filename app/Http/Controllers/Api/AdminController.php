@@ -27,6 +27,7 @@ class AdminController extends Controller
         $user = new User([
             'email'    => $request->email,
             'password' => bcrypt($request->password),
+            'role' => $request->role
         ]);
         $user->save();
 
@@ -79,30 +80,27 @@ class AdminController extends Controller
 
 
     public function cargarAlumnos(Request $request){
-        $data = DB::select('select a.id,a.nombre,a.materno,a.paterno,u.email,u.role from alumnos a inner join users u on a.user_id = u.id');
+        $data = DB::select('select a.id,a.nombre,a.materno,a.paterno,a.user_id, u.email,u.role from alumnos a inner join users u on a.user_id = u.id');
         return response($data);
     }
 
 
     public function cargarProfesores(Request $request){
-        $data = DB::select('select a.id,a.nombre,a.materno,a.paterno,u.email,u.role from profesores a inner join users u on a.user_id = u.id');
+        $data = DB::select('select a.id,a.nombre,a.materno,a.paterno,a.user_id, u.email,u.role from profesores a inner join users u on a.user_id = u.id');
         return response($data);
     }
 
     public function cargarTutores(Request $request){
-        $data = DB::select('select a.id,a.nombre,a.materno,a.paterno,u.email,u.role from tutores a inner join users u on a.user_id = u.id');
+        $data = DB::select('select a.id,a.nombre,a.materno,a.paterno,a.user_id, u.email,u.role from tutores a inner join users u on a.user_id = u.id');
         return response($data);
     }
 
 
-    public function deleteUser($id,$type){
-        if($type == "estudiante"){
-            
-        }else if($type == "profesor"){
-
-        }else if($type == "tutor"){
-
-        }
+    public function deleteUser(Request $request, $id){
+        $user = User::find($id);
+        if(!$user) return response(['message' => "Usuario no encontrado"],401);
+        $user->delete();
+        return response(['message' => "Usuario eliminado correctamente"],200);
     }
 
 

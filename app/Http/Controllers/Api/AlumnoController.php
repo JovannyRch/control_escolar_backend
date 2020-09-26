@@ -14,9 +14,8 @@ class AlumnoController extends Controller
     public function materias(Request $request){
         $user = $request->user();
         $ciclo_id = Ciclo::getActual();
-        if( $user->role == "student" || $user->role == "estudiante" ) {
-            $alumno_id = Alumno::select('id')->firstWhere('user_id',$user->id)->id;
-            $inscripcion = Inscripcion::
+        $alumno_id = Alumno::select('id')->firstWhere('user_id',$user->id)->id;
+        $inscripcion = Inscripcion::
             where('alumno_id',$alumno_id)
             ->where('ciclo_id',$ciclo_id)->first();
            
@@ -26,10 +25,6 @@ class AlumnoController extends Controller
             
             $data = Materia::select('id','nombre')->where('grado_id',$inscripcion->grado_id)->get();
             return response(compact('data'));
-        }
-        else if($user->role == "teacher"){
-
-        }
         
     }
 
