@@ -60,7 +60,7 @@ class CiclosController extends Controller
             Ciclo::destroy($id);
             return response(['message' => "Ciclo eliminado correctamente"]);
         } catch (\Throwable $th) {
-            return response(['message' => "Ocurrio un error al eliminar el ciclo"]);
+            return response(['message' => "Ocurrio un error al eliminar el ciclo"],501);
         }
     }
 }

@@ -62,4 +62,8 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
     Route::delete('ciclos/{id}',[CiclosController::class, 'eliminar']);
     Route::put('ciclos/{id}',[CiclosController::class, 'update']);
     Route::post('ciclos/activar/{id}',[CiclosController::class, 'activar']);
+
+    //Grupos
+    Route::get('grupos',[CiclosController::class, 'index']);
+
 });
