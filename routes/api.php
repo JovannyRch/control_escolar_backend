@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AlumnoController;
 use App\Http\Controllers\Api\CiclosController;
+use App\Http\Controllers\Api\GradosController;
+use App\Http\Controllers\Api\GruposController;
 use App\Http\Controllers\Api\MateriaController;
 
 
@@ -64,6 +66,23 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
     Route::post('ciclos/activar/{id}',[CiclosController::class, 'activar']);
 
     //Grupos
-    Route::get('grupos',[CiclosController::class, 'index']);
+    Route::get('grupos',[GruposController::class, 'index']);
+    Route::post('grupos',[GruposController::class, 'create']);
+    Route::put('grupos/{id}',[GruposController::class, 'update']);
+    Route::delete('grupos/{id}',[GruposController::class, 'delete']);
+
+    //Grados
+    Route::get('grados',[GradosController::class, 'index']);
+    Route::post('grados',[GradosController::class, 'create']);
+    Route::put('grados/{id}',[GradosController::class, 'update']);
+    Route::delete('grados/{id}',[GradosController::class, 'delete']);
+
+
+    //Materias
+    Route::get('materias',[MateriaController::class, 'index']);
+    Route::post('materias',[MateriaController::class, 'create']);
+    Route::delete('materias',[MateriasController::class, 'delete']);
+    Route::put('materias',[MateriaController::class, 'update']);
+
 
 });

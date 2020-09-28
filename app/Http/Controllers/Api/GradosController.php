@@ -30,12 +30,14 @@ class GradosController extends Controller
         $item = Grado::create([
         "nombre" => $request->nombre
         ]);
-        return response(item);
+        return response($item);
     }
+
+
 
     public function update(Request $request,$id){
         $request->validate([
-            'nombre'    => 'required|string|unique:grupos,'.$id,  
+            'nombre'    => 'required|string|unique:grados,'.$id,  
         ]);
         $item = Grado::find($id);
         try {
