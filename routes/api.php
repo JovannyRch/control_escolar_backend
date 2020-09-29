@@ -6,9 +6,11 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AlumnoController;
 use App\Http\Controllers\Api\CiclosController;
+use App\Http\Controllers\Api\ClasesController;
 use App\Http\Controllers\Api\GradosController;
 use App\Http\Controllers\Api\GruposController;
 use App\Http\Controllers\Api\MateriaController;
+use App\Http\Controllers\Api\TutoresController;
 
 
 Route::group(['prefix' => 'auth','middleware' => ['cors', 'json.response'],], function () {
@@ -49,6 +51,11 @@ Route::middleware(['auth:api','api.profesor'])->group(function () {
     Route::get('profesor/materias',  [AlumnoController::class, 'materias']);
 });
 
+// Rutas de tutores
+Route::middleware(['auth:api','api.tutor'])->group(function () {
+    Route::get('tutor/{id}/tutorados',[TutoresController::class, 'tutorados']); //Es la misma que la del administrador
+});
+
 
 //Rutas del administrador
 Route::middleware(['auth:api','api.admin'])->group(function () {
@@ -73,6 +80,7 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
 
     //Grados
     Route::get('grados',[GradosController::class, 'index']);
+    Route::get('grados/{id}',[GradosController::class, 'show']);
     Route::post('grados',[GradosController::class, 'create']);
     Route::put('grados/{id}',[GradosController::class, 'update']);
     Route::delete('grados/{id}',[GradosController::class, 'delete']);
@@ -80,9 +88,18 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
 
     //Materias
     Route::get('materias',[MateriaController::class, 'index']);
+    Route::get('materias/{id}',[MateriaController::class, 'show']);
     Route::post('materias',[MateriaController::class, 'create']);
-    Route::delete('materias',[MateriasController::class, 'delete']);
-    Route::put('materias',[MateriaController::class, 'update']);
+    Route::put('materias/{id}',[MateriaController::class, 'update']);
+    Route::delete('materias/{id}',[MateriaController::class, 'delete']);
 
 
+    //Tutores
+    Route::post('tutor/alumno',[TutoresController::class, 'agregarAlumno']); 
+    Route::get('tutor/{id}/tutorados',[TutoresController::class, 'tutorados']);
+    Route::delete('tutor/tutorado/{id}',[TutoresController::class, 'deleteTutorado']);
+
+    //Clases
+    Route::get('clases',[ClasesController::class, 'index']);
+    Route::post('clases',[ClasesController::class, 'create']);
 });

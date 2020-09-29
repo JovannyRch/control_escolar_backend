@@ -26,10 +26,31 @@ class MateriaController extends Controller
         $item = Materia::find($id);
         try{
             $item->remove();
-            return response(['message' => 'Elimininación exitosa']);
+            return response(['message' => 'Eliminación exitosa']);
         } catch (\Throwable $th) {
             return response(['message' => 'Ocurrio un error al eliminar']);
         }
+    }
+
+    public function update(Request $request,$id){
+        $request->validate([
+            'nombre'    => 'required|string|unique:materias,id,'.$id,
+            'plan'    => 'required|string',
+            'grado_id'    => 'required|number',
+        ]);
+        $item = Materia::find($id);
+        if(!item){return response(['message' => 'Recurso no encontrado'],404);}
+        
+        try {
+            $item->nombre = $request->nombre;
+            $item->plan = $request->plan;
+            $item->grado_id = $request->grado_id;
+            $item->save();
+            return response(['message' => 'Actualización exitosa']);
+        } catch (\Throwable $th) {
+            return response(['message' => 'Ocurrio un error al actualizar'],501);
+        }
+
     }
 
  

@@ -15,14 +15,14 @@ create table ciclos(
     nombre varchar(200) not null unique,
     status enum('activo','noactivo') default 'noactivo',
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 create table grados(
     id bigint unsigned primary key auto_increment,
     nombre varchar(200) not null unique,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 create table materias(
@@ -32,14 +32,14 @@ create table materias(
     grado_id bigint unsigned not null,
     foreign key(grado_id) references grados(id) on delete cascade,
      created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 create table grupos(
     id bigint unsigned primary key auto_increment,
     nombre varchar(200) not null unique,
      created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -51,7 +51,7 @@ create table alumnos(
   user_id bigint unsigned,
   foreign key(user_id) references users(id) on delete cascade,
   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -64,7 +64,7 @@ create table profesores(
   user_id bigint unsigned,
   foreign key(user_id) references users(id) on delete cascade,
   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -76,7 +76,7 @@ create table tutores(
   user_id bigint unsigned,
   foreign key(user_id) references users(id) on delete cascade,
   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 create table alumnos_on_tutores(
@@ -86,12 +86,13 @@ create table alumnos_on_tutores(
     alumno_id bigint unsigned  not null,
     foreign key(alumno_id) references alumnos(id) on delete cascade,
   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 
 create table inscripciones(
     id bigint unsigned  primary key auto_increment, 
+    turno enum('matutino','vespertino','discontinuo') default 'matutino',
     alumno_id bigint unsigned  not null,
     foreign key(alumno_id) references alumnos(id) on delete cascade,
     grupo_id bigint unsigned  not null,
@@ -100,12 +101,13 @@ create table inscripciones(
     foreign key(ciclo_id) references ciclos(id) on delete cascade,
     grado_id bigint unsigned  not null,
     foreign key(grado_id) references grados(id) on delete cascade,
-  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 create table clases(
     id bigint unsigned  primary key auto_increment, 
+    turno enum('matutino','vespertino','discontinuo') default 'matutino',
     profesor_id bigint unsigned  not null,
     foreign key(profesor_id) references profesores(id) on delete cascade,
     grupo_id bigint unsigned  not null,
@@ -117,14 +119,14 @@ create table clases(
     materia_id bigint unsigned  not null,
     foreign key(materia_id) references materias(id) on delete cascade,
   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 create table parciales(
     id bigint unsigned  primary key auto_increment,
     nombre varchar(150)  not null,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 create table calificaciones(
@@ -137,7 +139,7 @@ create table calificaciones(
     parciales_id bigint unsigned,
     foreign key(parciales_id) references parciales(id) on delete cascade,
    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -149,7 +151,7 @@ create table calificaciones_finales(
     alumno_id bigint unsigned not null,
     foreign key(alumno_id) references alumnos(id) on delete cascade,
    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 create table asistencias(
@@ -160,7 +162,7 @@ create table asistencias(
     alumno_id bigint unsigned  not null,
     foreign key(alumno_id) references alumnos(id) on delete cascade,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 )
 
 
@@ -170,7 +172,7 @@ create table noticias(
     body text not null,
     img text not null,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   updated_at timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 

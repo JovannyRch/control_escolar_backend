@@ -13,13 +13,20 @@ class GradosController extends Controller
         return response($items);
     }
 
+    public function show(Request $request, $id){
+        $item = Grado::find($id);
+        if(!$item){return response(['message' => "Recurso no encontrado"],404);}
+        return response($item);
+    }
+
     public function delete(Request $request, $id){
         $item = Grado::find($id);
+        if(!$item){return response(['message' => "Recurso no encontrado"]);}
         try{
             $item->remove();
-            return response(['message' => 'Elimininación exitosa']);
+            return response(['message' => 'Eliminación exitosa']);
         } catch (\Throwable $th) {
-            return response(['message' => 'Ocurrio un error al eliminar']);
+            return response(['message' => 'Ocurrio un error al eliminar'],501);
         }
     }
 
@@ -34,15 +41,15 @@ class GradosController extends Controller
     }
 
 
-
     public function update(Request $request,$id){
         $request->validate([
-            'nombre'    => 'required|string|unique:grados,'.$id,  
+            'nombre'    => 'required|string|unique:grados,id,'.$id,  
         ]);
         $item = Grado::find($id);
         try {
             $item->nombre = $request->nombre; 
             $item->save();
+            return response(['message' => 'Actualización exitosa']);
         } catch (\Throwable $th) {
             return response(['message' => 'Ocurrio un error al actualizar'],501);
         }
