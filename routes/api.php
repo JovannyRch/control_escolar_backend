@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\GradosController;
 use App\Http\Controllers\Api\GruposController;
 use App\Http\Controllers\Api\MateriaController;
 use App\Http\Controllers\Api\TutoresController;
+use App\Http\Controllers\Api\ProfesoresController;
+use App\Http\Controllers\Api\AsistenciasController;
 
 
 Route::group(['prefix' => 'auth','middleware' => ['cors', 'json.response'],], function () {
@@ -28,27 +30,27 @@ Route::group(['prefix' => 'auth','middleware' => ['cors', 'json.response'],], fu
 
 
 
-Route::group(['middleware' => ['cors', 'json.response','auth:api']], function () {
+Route::group(['middleware' => ['auth:api']], function () {
     //Users
-    /* Route::get('users',  [UserController::class, 'all']);
-    Route::get('users/{id}',  [UserController::class, 'single']);
-    Route::put('users/{id}',  [UserController::class, 'update']);
-    Route::delete('users/{id}',  [UserController::class, 'delete']); */
-    //Route::get('alumno/materias',  [AlumnoController::class, 'materias'])->middleware('api.alumno');
+   
     Route::get('materias/{id}',  [MateriaController::class, 'show']);
-    //Projects
+    Route::get('grupos/{grupo_id}/alumnos',[GruposController::class, 'alumnos']);
 
 });
 
-// Rutas de alumnos
+// Rutas de alumnos 'prefix' => 'auth'
 Route::middleware(['auth:api','api.alumno'])->group(function () {
     Route::get('alumno/materias',  [AlumnoController::class, 'materias']);
+    
 });
 
 
 // Rutas de profesores
-Route::middleware(['auth:api','api.profesor'])->group(function () {
-    Route::get('profesor/materias',  [AlumnoController::class, 'materias']);
+Route::group(['prefix' => 'profesores','middleware' => ['auth:api', 'api.profesor'],], function () {
+    Route::get('materias',  [ProfesoresController::class, 'materias']);
+    Route::get('materias/{id}/grupos',  [ProfesoresController::class, 'gruposPorMateria']);
+    
+    Route::get('asistencia',[AsistenciasController::class, 'create']);
 });
 
 // Rutas de tutores

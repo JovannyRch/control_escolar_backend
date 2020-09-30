@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Ciclo;
 use App\Models\Grupo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class GruposController extends Controller
@@ -45,5 +47,12 @@ class GruposController extends Controller
        } catch (\Throwable $th) {
            return response(['message' => 'Ocurrio un error al actualizar'],501);
        }
+    }
+
+    public function alumnos(Request $request,$grupo_id){
+        $ciclo_actual = Ciclo::getActual();
+        if(!$ciclo_actual){return response(['message' => 'No se encontró un ciclo activo'],404);}
+        $alumnos = DB::select("SELECT a.* from alumnos as a where a.id in (SELECT i.alumno_id from inscripciones as i where i.grupo_id= $grupo_id and i.ciclo_id = $ciclo_actual)");
+        return response($alumnos);
     }
 }

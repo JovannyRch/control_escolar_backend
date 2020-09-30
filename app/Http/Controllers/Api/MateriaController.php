@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Ciclo;
 use App\Models\Materia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class MateriaController extends Controller
@@ -72,6 +74,10 @@ class MateriaController extends Controller
             return response(['message' => 'Ocurrio un error al crear'],501);
         }
     }
+
+   
+
+    
    
 }
 

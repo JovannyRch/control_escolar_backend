@@ -117,7 +117,7 @@ create table clases(
     grado_id bigint unsigned  not null,
     foreign key(grado_id) references grados(id) on delete cascade,
     materia_id bigint unsigned  not null,
-    foreign key(materia_id) references materias(id) on delete cascade,
+
   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
