@@ -28,11 +28,9 @@ class CiclosController extends Controller
     
     public function update(Request $request,$id){
        
-        $request->validate(
-            [
-                'nombre' => 'required|string|unique:ciclos,'.$id
-            ]
-        );  
+        $request->validate([
+            'nombre'    => 'required|string|unique:ciclos,id,'.$id,  
+        ]);
         $ciclo = Ciclo::find($id);
         $ciclo->nombre = $request->nombre;
         $ciclo->save();

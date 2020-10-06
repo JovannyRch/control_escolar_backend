@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\GradosController;
 use App\Http\Controllers\Api\GruposController;
 use App\Http\Controllers\Api\MateriaController;
 use App\Http\Controllers\Api\TutoresController;
+use App\Http\Controllers\Api\ParcialesController;
 use App\Http\Controllers\Api\ProfesoresController;
 use App\Http\Controllers\Api\AsistenciasController;
 
@@ -104,4 +105,11 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
     //Clases
     Route::get('clases',[ClasesController::class, 'index']);
     Route::post('clases',[ClasesController::class, 'create']);
+    
+    //Parciales
+    Route::get('parciales',[ParcialesController::class, 'index']);
+    Route::post('parciales',[ParcialesController::class, 'create']);
+    Route::delete('parciales/{id}',[ParcialesController::class, 'delete']);
+    Route::put('parciales/{id}',[ParcialesController::class, 'update']);
+
 });
