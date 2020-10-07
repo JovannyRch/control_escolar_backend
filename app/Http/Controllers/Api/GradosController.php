@@ -23,10 +23,10 @@ class GradosController extends Controller
         $item = Grado::find($id);
         if(!$item){return response(['message' => "Recurso no encontrado"]);}
         try{
-            $item->remove();
+            $item->delete();
             return response(['message' => 'Eliminación exitosa']);
         } catch (\Throwable $th) {
-            return response(['message' => 'Ocurrio un error al eliminar'],501);
+            return response(['message' => 'Ocurrio un error al eliminar '.$th],501);
         }
     }
 

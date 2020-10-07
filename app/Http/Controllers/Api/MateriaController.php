@@ -26,8 +26,9 @@ class MateriaController extends Controller
 
     public function delete(Request $request, $id){
         $item = Materia::find($id);
+        if(!$item){return response(['message' => 'Recurso no encontrado'],404);}
         try{
-            $item->remove();
+            $item->delete();
             return response(['message' => 'Eliminación exitosa']);
         } catch (\Throwable $th) {
             return response(['message' => 'Ocurrio un error al eliminar']);
@@ -41,7 +42,7 @@ class MateriaController extends Controller
             'grado_id'    => 'required|number',
         ]);
         $item = Materia::find($id);
-        if(!item){return response(['message' => 'Recurso no encontrado'],404);}
+        if(!$item){return response(['message' => 'Recurso no encontrado'],404);}
         
         try {
             $item->nombre = $request->nombre;

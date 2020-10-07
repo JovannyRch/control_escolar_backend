@@ -25,11 +25,12 @@ class GruposController extends Controller
 
     public function delete(Request $request, $id){
         $item = Grupo::find($id);
+        if(!$item){return response(['message' => 'Recurso no encontrado'],404);}
         try {
-            $item->remove();
+            $item->delete();
             return response(['message' => 'Grupo eliminado correctamente']);
         } catch (\Throwable $th) {
-            return response(['message' => 'Ocurrio un error al eliminar'],501);
+            return response(['message' => 'Ocurrio un error al eliminar '.$th],501);
         }
     }
 
