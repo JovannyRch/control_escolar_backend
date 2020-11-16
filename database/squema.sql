@@ -162,8 +162,43 @@ create table asistencias(
     alumno_id bigint unsigned  not null,
     foreign key(alumno_id) references alumnos(id) on delete cascade,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 )
+
+create table apreciaciones(
+  id bigint unsigned primary key auto_increment,
+  ciclo_id bigint unsigned  not null,
+  foreign key(ciclo_id) references ciclos(id) on delete cascade,
+  instrucciones text,
+  status enum('activo','no_activo') not null default 'no_activo',
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+create table preguntas_apreciaciones(
+  id bigint unsigned primary key auto_increment,
+  apreciacion_id bigint unsigned  not null,
+  foreign key(apreciacion_id) references apreciaciones(id) on delete cascade,
+  pregunta text not null,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+create table respuesta_apreciaciones(
+  id bigint unsigned primary key auto_increment,
+  pregunta_id bigint unsigned  not null,
+  foreign key(pregunta_id) references preguntas_apreciaciones(id) on delete cascade,
+  puntaje TINYINT unsigned,
+  profesor_id bigint unsigned not null,
+  foreign key(profesor_id) references profesores(id) on delete cascade,
+  alumno_id bigint unsigned not null,
+  foreign key(alumno_id) references alumnos(id) on delete cascade,
+  pregunta text not null,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
 
 
 create table noticias(
