@@ -44,7 +44,8 @@ Route::group(['middleware' => ['auth:api']], function () {
 // Rutas de alumnos 'prefix' => 'auth'
 Route::middleware(['auth:api','api.alumno'])->group(function () {
     
-    Route::get('alumno/materias',  [AlumnoController::class, 'materiasConPromediosFinales']);
+    Route::get('alumno/clases',  [AlumnoController::class, 'materiasConPromediosFinales']);
+    Route::get('alumno/profesores',  [AlumnoController::class, 'profesoresConMaterias']);
 
     Route::get('alumno/noticias',[NoticiasController::class, 'index']);
     Route::get('alumno/noticias/{id}',[NoticiasController::class, 'show']);
