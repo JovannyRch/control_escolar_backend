@@ -65,7 +65,7 @@ class UserController extends Controller
         }
         $data = [];
         if($user->role == "alumno"){
-            $data = Alumno::select('nombre','paterno','materno')->firstWhere('user_id',$user->id);
+            $data = Alumno::select('nombre','paterno','materno', 'cuenta')->firstWhere('user_id',$user->id);
             $data = $this->objectToArray($data);
         }
 

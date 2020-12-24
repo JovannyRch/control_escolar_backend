@@ -45,6 +45,7 @@ create table grupos(
 
 create table alumnos( 
   id bigint unsigned  primary key auto_increment, 
+  cuenta bigint unsigned not null default 111111,
   materno varchar(150)  not null ,
   paterno varchar(150)  not null,
   nombre varchar(200)  not null,

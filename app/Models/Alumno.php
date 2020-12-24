@@ -11,7 +11,7 @@ class Alumno extends Model
     protected $table = "alumnos";
     
     protected $fillable = [
-        'nombre', 'paterno', 'materno',
+        'nombre', 'paterno', 'materno', 'cuenta'
     ];
 
 }
