@@ -163,7 +163,7 @@ create table asistencias(
     foreign key(alumno_id) references alumnos(id) on delete cascade,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-)
+);
 
 create table apreciaciones(
   id bigint unsigned primary key auto_increment,
@@ -229,3 +229,6 @@ insert into inscripciones(alumno_id, grado_id, grupo_id,ciclo_id) values(1,1,1,1
 
 
 
+
+
+-- ssh -i nombrekey.pem wc2-user@ip

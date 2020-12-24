@@ -14,11 +14,12 @@ use App\Http\Controllers\Api\TutoresController;
 use App\Http\Controllers\Api\ParcialesController;
 use App\Http\Controllers\Api\ProfesoresController;
 use App\Http\Controllers\Api\AsistenciasController;
-
+use App\Http\Controllers\Api\NoticiasController;
 
 Route::group(['prefix' => 'auth','middleware' => ['cors', 'json.response'],], function () {
     Route::post('login', [UserController::class, 'login']);
     Route::post('register', [UserController::class, 'register']);
+    
 
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('logout', [UserController::class, 'logout']);
@@ -33,15 +34,20 @@ Route::group(['prefix' => 'auth','middleware' => ['cors', 'json.response'],], fu
 
 Route::group(['middleware' => ['auth:api']], function () {
     //Users
-   
     Route::get('materias/{id}',  [MateriaController::class, 'show']);
     Route::get('grupos/{grupo_id}/alumnos',[GruposController::class, 'alumnos']);
+
+   
 
 });
 
 // Rutas de alumnos 'prefix' => 'auth'
 Route::middleware(['auth:api','api.alumno'])->group(function () {
+    
     Route::get('alumno/materias',  [AlumnoController::class, 'materias']);
+
+    Route::get('alumno/noticias',[NoticiasController::class, 'index']);
+    Route::get('alumno/noticias/{id}',[NoticiasController::class, 'show']);
     
 });
 
@@ -112,4 +118,12 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
     Route::delete('parciales/{id}',[ParcialesController::class, 'delete']);
     Route::put('parciales/{id}',[ParcialesController::class, 'update']);
 
+    //Noticias
+    Route::get('noticias',[NoticiasController::class, 'index']);
+    Route::get('noticias/{id}',[NoticiasController::class, 'show']);
+    Route::post('noticias',[NoticiasController::class, 'create']);
+    Route::delete('noticias/{id}',[NoticiasController::class, 'delete']);
+    Route::put('noticias/{id}',[NoticiasController::class, 'update']);
 });
+
+
