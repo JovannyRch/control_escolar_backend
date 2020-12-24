@@ -46,6 +46,6 @@ class AlumnoController extends Controller
         }
         
         $data = Clase::where('grado_id', $inscripcion->grado_id)->where('grupo_id', $inscripcion->grupo_id)->where('ciclo_id', $ciclo_id)->get();
-        return response(compact('inscripcion'));
+        return response(compact('data'));
     }
 }

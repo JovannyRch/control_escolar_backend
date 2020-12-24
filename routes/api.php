@@ -111,6 +111,7 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
     //Clases
     Route::get('clases',[ClasesController::class, 'index']);
     Route::post('clases',[ClasesController::class, 'create']);
+    Route::delete('clases/{id}',[ClasesController::class, 'delete']);
     
     //Parciales
     Route::get('parciales',[ParcialesController::class, 'index']);
