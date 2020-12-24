@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Grado;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Materia;
 
 class GradosController extends Controller
 {
@@ -53,5 +54,13 @@ class GradosController extends Controller
         } catch (\Throwable $th) {
             return response(['message' => 'Ocurrio un error al actualizar'],501);
         }
+    }
+
+    public function materias(Request $request, $id){
+        $materias = Materia::where('grado_id',$id)->get();
+        if($materias == null){
+            return [];
+        }
+        return response($materias);
     }
 }

@@ -20,7 +20,7 @@ class MateriaController extends Controller
     }
 
     public function index(Request $request){
-        $items = Materia::all();
+        $items = Materia::join('grados','grados.id','materias.grado_id')->select('materias.*','grados.nombre as grado')->orderBy('materias.nombre')->get();
         return response($items);
     }
 
@@ -39,7 +39,7 @@ class MateriaController extends Controller
         $request->validate([
             'nombre'    => 'required|string|unique:materias,id,'.$id,
             'plan'    => 'required|string',
-            'grado_id'    => 'required|number',
+            'grado_id'    => 'required',
         ]);
         $item = Materia::find($id);
         if(!$item){return response(['message' => 'Recurso no encontrado'],404);}
@@ -62,7 +62,7 @@ class MateriaController extends Controller
         $request->validate([
             'nombre'    => 'required|string|unique:materias',
             'plan'    => 'required|string',
-            'grado_id'    => 'required|number',
+            'grado_id'    => 'required',
         ]);
         try{
             $item = Materia::create([
@@ -72,7 +72,7 @@ class MateriaController extends Controller
             ]);
             return response($item);
         } catch (\Throwable $th) {
-            return response(['message' => 'Ocurrio un error al crear'],501);
+            return response(['message' => 'Ocurrio un error al crear '.$th],501);
         }
     }
 

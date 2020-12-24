@@ -103,6 +103,8 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
     Route::put('materias/{id}',[MateriaController::class, 'update']);
     Route::delete('materias/{id}',[MateriaController::class, 'delete']);
 
+    //Materias por grado
+    Route::get('grados/{id}/materias',[GradosController::class, 'materias']);
 
     //Tutores
     Route::post('tutor/alumno',[TutoresController::class, 'agregarAlumno']); 
