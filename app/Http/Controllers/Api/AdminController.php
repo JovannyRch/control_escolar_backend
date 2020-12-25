@@ -80,18 +80,18 @@ class AdminController extends Controller
 
 
     public function cargarAlumnos(Request $request){
-        $data = DB::select('select a.id,a.nombre,a.materno,a.paterno,a.user_id, u.email,u.role from alumnos a inner join users u on a.user_id = u.id');
+        $data = DB::select("select a.id,a.nombre,a.materno,a.paterno,a.user_id, u.email,u.role from alumnos a inner join users u on a.user_id = u.id where role = 'alumno'");
         return response($data);
     }
 
 
     public function cargarProfesores(Request $request){
-        $data = DB::select('select a.id,a.nombre,a.materno,a.paterno,a.user_id, u.email,u.role from profesores a inner join users u on a.user_id = u.id');
+        $data = DB::select("select a.id,a.nombre,a.materno,a.paterno,a.user_id, u.email,u.role from profesores a inner join users u on a.user_id = u.id where role = 'profesor'");
         return response($data);
     }
 
     public function cargarTutores(Request $request){
-        $data = DB::select('select a.id,a.nombre,a.materno,a.paterno,a.user_id, u.email,u.role from tutores a inner join users u on a.user_id = u.id');
+        $data = DB::select("select a.id,a.nombre,a.materno,a.paterno,a.user_id, u.email,u.role from tutores a inner join users u on a.user_id = u.id where role = 'tutor'");
         return response($data);
     }
 

@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\TutoresController;
 use App\Http\Controllers\Api\ParcialesController;
 use App\Http\Controllers\Api\ProfesoresController;
 use App\Http\Controllers\Api\AsistenciasController;
+use App\Http\Controllers\Api\InscripcionesController;
 use App\Http\Controllers\Api\NoticiasController;
 
 Route::group(['prefix' => 'auth','middleware' => ['cors', 'json.response'],], function () {
@@ -128,6 +129,13 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
     Route::post('noticias',[NoticiasController::class, 'create']);
     Route::delete('noticias/{id}',[NoticiasController::class, 'delete']);
     Route::put('noticias/{id}',[NoticiasController::class, 'update']);
+
+    //Inscripciones
+    Route::get('inscripciones',[InscripcionesController::class, 'index']);
+    Route::get('inscripciones/{id}',[InscripcionesController::class, 'show']);
+    Route::post('inscripciones',[InscripcionesController::class, 'create']);
+    Route::delete('inscripciones/{id}',[InscripcionesController::class, 'delete']);
+    Route::put('inscripciones/{id}',[InscripcionesController::class, 'update']);
 });
 
 
