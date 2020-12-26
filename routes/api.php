@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AlumnoController;
+use App\Http\Controllers\Api\ApreciacionesController;
 use App\Http\Controllers\Api\CiclosController;
 use App\Http\Controllers\Api\ClasesController;
 use App\Http\Controllers\Api\GradosController;
@@ -136,6 +137,12 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
     Route::post('inscripciones',[InscripcionesController::class, 'create']);
     Route::delete('inscripciones/{id}',[InscripcionesController::class, 'delete']);
     Route::put('inscripciones/{id}',[InscripcionesController::class, 'update']);
+
+    //Apreciaciones
+    Route::get('apreciaciones',[ApreciacionesController::class, 'index']);
+    Route::post('apreciaciones',[ApreciacionesController::class, 'create']);
+    Route::delete('apreciaciones/{id}',[ApreciacionesController::class, 'delete']);
+    Route::put('apreciaciones/{id}',[ApreciacionesController::class, 'update']);
 });
 
 
