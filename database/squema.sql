@@ -194,7 +194,6 @@ create table respuesta_apreciaciones(
   foreign key(profesor_id) references profesores(id) on delete cascade,
   alumno_id bigint unsigned not null,
   foreign key(alumno_id) references alumnos(id) on delete cascade,
-  pregunta text not null,
   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

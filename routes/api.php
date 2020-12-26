@@ -140,9 +140,13 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
 
     //Apreciaciones
     Route::get('apreciaciones',[ApreciacionesController::class, 'index']);
+    Route::get('apreciaciones/{id}',[ApreciacionesController::class, 'show']);
     Route::post('apreciaciones',[ApreciacionesController::class, 'create']);
     Route::delete('apreciaciones/{id}',[ApreciacionesController::class, 'delete']);
     Route::put('apreciaciones/{id}',[ApreciacionesController::class, 'update']);
+    Route::get('apreciaciones/{id}/preguntas',[ApreciacionesController::class, 'preguntas']);
+    Route::post('apreciaciones/preguntas',[ApreciacionesController::class, 'createPregunta']);
+    Route::delete('apreciaciones/preguntas/{id}',[ApreciacionesController::class, 'deletePregunta']);
 });
 
 
