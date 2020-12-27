@@ -87,6 +87,24 @@ class ApreciacionesController extends Controller
 
     }
 
+    //Apreciacion activa para el alumno
+    public function apreciacionActiva(Request $request){
+        $item =  DB::table('apreciaciones')
+        ->where('apreciaciones.status', 'activo')
+        ->join('ciclos', 'apreciaciones.ciclo_id', '=', 'ciclos.id')
+        ->select("apreciaciones.*", "ciclos.nombre as ciclo")
+        ->get()
+        ->first();
+        
+        if(!$item){
+            return response(['message' => "Recurso no encontrado"],404);
+        }
+        $item = @json_decode(json_encode($item), true);
+        return response($item);
+    }
+
+
+    //Preguntas
     public function updatePregunta(Request $request, $id){
         $item = PreguntaApreciacion::find($id);
         if(!$item){return response(['message' => 'Recurso no encontrado'],404);}
@@ -136,5 +154,10 @@ class ApreciacionesController extends Controller
             return response(['message' => 'Ocurrio un error al eliminar']);
         }
     }
+
+
+    //Respuestas
+
+
 
 }

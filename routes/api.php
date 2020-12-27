@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\ProfesoresController;
 use App\Http\Controllers\Api\AsistenciasController;
 use App\Http\Controllers\Api\InscripcionesController;
 use App\Http\Controllers\Api\NoticiasController;
+use App\Http\Controllers\Api\RespuestasApreciacionesController;
 
 Route::group(['prefix' => 'auth','middleware' => ['cors', 'json.response'],], function () {
     Route::post('login', [UserController::class, 'login']);
@@ -51,6 +52,10 @@ Route::middleware(['auth:api','api.alumno'])->group(function () {
 
     Route::get('alumno/noticias',[NoticiasController::class, 'index']);
     Route::get('alumno/noticias/{id}',[NoticiasController::class, 'show']);
+
+    //Apreciaciones
+    Route::get('alumno/apreciaciones/activo',[ApreciacionesController::class, 'apreciacionActiva']);
+
     
 });
 
@@ -148,6 +153,7 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
     Route::post('apreciaciones/preguntas',[ApreciacionesController::class, 'createPregunta']);
     Route::put('apreciaciones/preguntas/{id}',[ApreciacionesController::class, 'updatePregunta']);
     Route::delete('apreciaciones/preguntas/{id}',[ApreciacionesController::class, 'deletePregunta']);
+    Route::delete('preguntas/{id}/respuestas',[RespuestasApreciacionesController::class, 'showByPregunta']);
 });
 
 
