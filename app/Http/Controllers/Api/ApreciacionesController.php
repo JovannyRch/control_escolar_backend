@@ -87,6 +87,22 @@ class ApreciacionesController extends Controller
 
     }
 
+    public function updatePregunta(Request $request, $id){
+        $item = PreguntaApreciacion::find($id);
+        if(!$item){return response(['message' => 'Recurso no encontrado'],404);}
+        $request->validate([
+            'pregunta'    => 'required'
+        ]);
+        
+        try {
+            $item->pregunta = $request->pregunta;
+            $item->save();
+            return response(['message' => 'Actualización exitosa']);
+        } catch (\Throwable $th) {
+            return response(['message' => 'Ocurrio un error al actualizar'],501);
+        }
+    }
+
     public function preguntas(Request $request, $id){
         $data = PreguntaApreciacion::where('apreciacion_id',$id)->get();
         return response($data);

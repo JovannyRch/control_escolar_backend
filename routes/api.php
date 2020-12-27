@@ -146,6 +146,7 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
     Route::put('apreciaciones/{id}',[ApreciacionesController::class, 'update']);
     Route::get('apreciaciones/{id}/preguntas',[ApreciacionesController::class, 'preguntas']);
     Route::post('apreciaciones/preguntas',[ApreciacionesController::class, 'createPregunta']);
+    Route::put('apreciaciones/preguntas/{id}',[ApreciacionesController::class, 'updatePregunta']);
     Route::delete('apreciaciones/preguntas/{id}',[ApreciacionesController::class, 'deletePregunta']);
 });
 
