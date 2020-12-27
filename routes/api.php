@@ -55,6 +55,7 @@ Route::middleware(['auth:api','api.alumno'])->group(function () {
 
     //Apreciaciones
     Route::get('alumno/apreciaciones/activo',[ApreciacionesController::class, 'apreciacionActiva']);
+    Route::get('alumno/apreciaciones/{id}/preguntas',[ApreciacionesController::class, 'preguntas']);
 
     
 });
