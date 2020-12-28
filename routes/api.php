@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 Route::middleware(['auth:api','api.alumno'])->group(function () {
     
     Route::get('alumno/clases',  [AlumnoController::class, 'materiasConPromediosFinales']);
+    Route::get('alumno/clases/{id}/details',  [AlumnoController::class, 'claseDetail']);
     Route::get('alumno/profesores',  [AlumnoController::class, 'profesoresConMaterias']);
 
     Route::get('alumno/noticias',[NoticiasController::class, 'index']);
@@ -150,6 +151,8 @@ Route::middleware(['auth:api','api.admin'])->group(function () {
     Route::post('apreciaciones',[ApreciacionesController::class, 'create']);
     Route::delete('apreciaciones/{id}',[ApreciacionesController::class, 'delete']);
     Route::put('apreciaciones/{id}',[ApreciacionesController::class, 'update']);
+
+    //Preguntas de las apreciaciones
     Route::get('apreciaciones/{id}/preguntas',[ApreciacionesController::class, 'preguntas']);
     Route::post('apreciaciones/preguntas',[ApreciacionesController::class, 'createPregunta']);
     Route::put('apreciaciones/preguntas/{id}',[ApreciacionesController::class, 'updatePregunta']);

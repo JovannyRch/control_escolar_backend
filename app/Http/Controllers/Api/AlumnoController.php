@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\CalificacionFinal;
 use App\Models\Clase;
+use App\Models\Profesor;
 use Illuminate\Support\Facades\DB;
 
 class AlumnoController extends Controller
@@ -47,7 +48,7 @@ class AlumnoController extends Controller
             return response(['message' => "El alumno no está inscrito en el ciclo actual"],404);
         }
         
-        $clases = Clase::where('grado_id', $inscripcion->grado_id)->where('grupo_id', $inscripcion->grupo_id)->where('ciclo_id', $ciclo_id)->select('materia_id', 'id')->get();
+        $clases = Clase::where('grado_id', $inscripcion->grado_id)->where('grupo_id', $inscripcion->grupo_id)->where('ciclo_id', $ciclo_id)->select('materia_id','profesor_id', 'id')->get();
         $data = array();
         foreach ($clases as $clase) {
             $registroCalificacion = CalificacionFinal::where('clase_id', $clase->id)->where('alumno_id', $alumno_id)->first();
@@ -57,9 +58,11 @@ class AlumnoController extends Controller
             }else{
                 $promedio = strval($registroCalificacion->calificacion);
             }
+            $profesor = Profesor::find($clase->profesor_id);
             $data[] = array(
                 'clase_id'=> $clase->id,
                 'materia' => Materia::find($clase->materia_id)->nombre,
+                'profesor' => $profesor->nombre." ".$profesor->paterno." ".$profesor->materno,
                 'promedio' => $promedio
             );
         }
@@ -90,6 +93,17 @@ class AlumnoController extends Controller
 
        
         return response($clases);
+    }
+
+    public function claseDetail(Request $request, $id){
+        $user = $request->user();
+        $ciclo_id = Ciclo::getActual();
+        $alumno_id = Alumno::select('id')->firstWhere('user_id',$user->id)->id;
+        $inscripcion = Inscripcion::
+            where('alumno_id',$alumno_id)
+            ->where('ciclo_id',$ciclo_id)->first();
+            
+           
     }
 
 
